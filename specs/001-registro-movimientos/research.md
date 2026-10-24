@@ -82,3 +82,18 @@ elección tecnológica o una regla que la spec dejó abierta.
 | Fecha futura | Se acepta; la lista la marca con la etiqueta "Futuro" |
 | Nota > 200 caracteres | `maxLength` en el campo y rechazo 400 en la API |
 | Tipo y categoría incompatibles | Rechazo 400 con `field: "categoryId"` |
+
+## R10. Versiones y scripts de instalación (añadido en RDF-5)
+
+- **Decision**: versiones vigentes sin avisos de seguridad (vitest 5, vite 8, zod 4,
+  better-sqlite3 13, jsdom 30) y `ignore-scripts=true` en `.npmrc`. React 18 y Express 4 se
+  mantienen como dice el plan: no tienen avisos.
+- **Rationale**: las primeras versiones elegidas (vitest 2, vite 5/6, zod 3) sumaban 7 avisos de
+  `npm audit`, 2 críticos. better-sqlite3 13 trae binarios precompilados para Windows, Linux y
+  macOS, pero npm intenta compilarlo con node-gyp, que exige Visual Studio en Windows. Ninguna otra
+  dependencia necesita scripts de instalación.
+- **Alternatives considered**: better-sqlite3 12 con `prebuild-install` — paquete sin
+  mantenimiento que descarga binarios en la instalación; `node:sqlite` — sigue experimental en
+  Node 22 (ver R2); instalar las herramientas de C++ — carga innecesaria para cada colaborador.
+- **Consequence**: si en el futuro una dependencia necesita su script de instalación, hay que
+  ejecutarlo de forma explícita (`npm rebuild <paquete>`) o revisar esta decisión.

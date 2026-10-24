@@ -25,11 +25,11 @@ Aplicación web: `backend/src/`, `backend/tests/`, `frontend/src/`, `frontend/te
 
 **Purpose**: monorepo con npm workspaces, dependencias de todo el sprint y CI.
 
-- [ ] T001 Crear `package.json` raíz con `"workspaces": ["backend", "frontend"]` y scripts `dev` (concurrently), `test` (ambos workspaces) en `package.json`
-- [ ] T002 [P] Crear `backend/package.json` (ESM, Express 4, better-sqlite3, zod; dev: vitest, supertest) y `backend/vitest.config.js`
-- [ ] T003 [P] Crear `frontend/package.json` (React 18, Vite; dev: vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom), `frontend/vite.config.js` con proxy `/api` → `http://localhost:3001` y config de pruebas
-- [ ] T004 Instalar dependencias y generar `package-lock.json` (único PR que lo modifica)
-- [ ] T005 [P] Crear `.github/workflows/ci.yml`: Node 22, `npm ci`, `npm test` en cada PR a `main`
+- [X] T001 Crear `package.json` raíz con `"workspaces": ["backend", "frontend"]` y scripts `dev` (concurrently), `test` (ambos workspaces) en `package.json`
+- [X] T002 [P] Crear `backend/package.json` (ESM, Express 4, better-sqlite3, zod; dev: vitest, supertest) y `backend/vitest.config.js`
+- [X] T003 [P] Crear `frontend/package.json` (React 18, Vite; dev: vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom), `frontend/vite.config.js` con proxy `/api` → `http://localhost:3001` y config de pruebas
+- [X] T004 Instalar dependencias y generar `package-lock.json` (único PR que lo modifica)
+- [X] T005 [P] Crear `.github/workflows/ci.yml`: Node 22, `npm ci`, `npm test` en cada PR a `main`
 
 ---
 
@@ -39,20 +39,20 @@ Aplicación web: `backend/src/`, `backend/tests/`, `frontend/src/`, `frontend/te
 
 ### Tests (escribir primero)
 
-- [ ] T006 [P] Prueba de integración `GET /api/health` → 200 `{"status":"ok"}` en `backend/tests/integration/health.test.js`
-- [ ] T007 [P] Prueba de semilla: base nueva tiene 7 categorías `expense` y 4 `income` con `isDefault: true`; ejecutar la semilla dos veces no duplica filas, en `backend/tests/integration/seed.test.js`
-- [ ] T008 [P] Prueba de errores: una ruta desconocida bajo `/api` → 404 `{"error":{"code":"NOT_FOUND",…}}`; una excepción inesperada → 500 `INTERNAL_ERROR` sin detalles internos, en `backend/tests/integration/errors.test.js`
+- [X] T006 [P] Prueba de integración `GET /api/health` → 200 `{"status":"ok"}` en `backend/tests/integration/health.test.js`
+- [X] T007 [P] Prueba de semilla: base nueva tiene 7 categorías `expense` y 4 `income` con `isDefault: true`; ejecutar la semilla dos veces no duplica filas, en `backend/tests/integration/seed.test.js`
+- [X] T008 [P] Prueba de errores: una ruta desconocida bajo `/api` → 404 `{"error":{"code":"NOT_FOUND",…}}`; una excepción inesperada → 500 `INTERNAL_ERROR` sin detalles internos, en `backend/tests/integration/errors.test.js`
 
 ### Implementation
 
-- [ ] T009 Esquema SQLite con las restricciones de data-model.md: `amount_cents INTEGER NOT NULL CHECK (amount_cents BETWEEN 1 AND 99999999999999)`, `note TEXT CHECK (note IS NULL OR length(note) <= 200)`, `type IN ('income','expense')`, FK `ON DELETE RESTRICT`, índice `idx_transactions_date`, en `backend/src/db/schema.sql`
-- [ ] T010 `openDb(path)`: abre la conexión, `PRAGMA foreign_keys = ON`, aplica el esquema y la semilla, en `backend/src/db/connection.js`
-- [ ] T011 Semilla idempotente: `expense` = Alimentación, Transporte, Vivienda, Servicios, Salud, Entretenimiento, Otros; `income` = Salario, Ventas, Regalos, Otros, en `backend/src/db/seed.js`
-- [ ] T012 `ValidationError`, `NotFoundError` y middleware que los traduce al formato `Error` del contrato, en `backend/src/http/errors.js`
-- [ ] T013 `createApp(db)` con JSON, `GET /api/health`, 404 de `/api` y manejador de errores, en `backend/src/app.js`
-- [ ] T014 Arranque en `:3001` con base en `backend/data/readyfin.sqlite`, en `backend/src/server.js`
-- [ ] T015 [P] Esqueleto del frontend: `frontend/index.html`, `frontend/src/main.jsx`, `frontend/src/App.jsx` que muestra el estado de `/api/health`
-- [ ] T016 [P] Prueba del esqueleto: `App` muestra "API conectada" cuando health responde, en `frontend/tests/App.test.jsx`
+- [X] T009 Esquema SQLite con las restricciones de data-model.md: `amount_cents INTEGER NOT NULL CHECK (amount_cents BETWEEN 1 AND 99999999999999)`, `note TEXT CHECK (note IS NULL OR length(note) <= 200)`, `type IN ('income','expense')`, FK `ON DELETE RESTRICT`, índice `idx_transactions_date`, en `backend/src/db/schema.sql`
+- [X] T010 `openDb(path)`: abre la conexión, `PRAGMA foreign_keys = ON`, aplica el esquema y la semilla, en `backend/src/db/connection.js`
+- [X] T011 Semilla idempotente: `expense` = Alimentación, Transporte, Vivienda, Servicios, Salud, Entretenimiento, Otros; `income` = Salario, Ventas, Regalos, Otros, en `backend/src/db/seed.js`
+- [X] T012 `ValidationError`, `NotFoundError` y middleware que los traduce al formato `Error` del contrato, en `backend/src/http/errors.js`
+- [X] T013 `createApp(db)` con JSON, `GET /api/health`, 404 de `/api` y manejador de errores, en `backend/src/app.js`
+- [X] T014 Arranque en `:3001` con base en `backend/data/readyfin.sqlite`, en `backend/src/server.js`
+- [X] T015 [P] Esqueleto del frontend: `frontend/index.html`, `frontend/src/main.jsx`, `frontend/src/App.jsx` que muestra el estado de `/api/health`
+- [X] T016 [P] Prueba del esqueleto: `App` muestra "API conectada" cuando health responde, en `frontend/tests/App.test.jsx`
 
 **Checkpoint**: `npm test` en verde, `npm run dev` levanta ambos lados, CI corre en el PR.
 
