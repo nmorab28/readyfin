@@ -50,15 +50,17 @@ datos se conservan al volver a abrir la app.
 **Pronóstico**: RDF-5, RDF-6, RDF-7, RDF-8, RDF-9 (5 elementos; sin historial previo, se revisa en
 la retrospectiva para calibrar el Sprint 2).
 
-**Plan SDD del sprint** (rama `001-registro-movimientos`):
+**Plan SDD del sprint** (spec `specs/001-registro-movimientos`; ramas cortas desde `main`, un PR
+por paso — ver [plan.md](../specs/001-registro-movimientos/plan.md#flujo-de-ramas-y-revisión)):
 
-1. `/speckit-clarify` (opcional) sobre `specs/001-registro-movimientos/spec.md`
-2. `/speckit-plan` con el stack de la constitución
-3. `/speckit-tasks` → `tasks.md` con las tareas de RDF-5, RDF-6, RDF-7, RDF-9
-4. `/speckit-analyze` para verificar consistencia spec ↔ plan ↔ tareas
-5. `/speckit-implement` historia por historia; un PR por historia con la clave `RDF-n`
+1. `/speckit-plan` → rama `docs/RDF-1-plan-registro-movimientos`
+2. `/speckit-tasks` → `tasks.md` con las tareas de RDF-5, RDF-6, RDF-7, RDF-9
+3. `/speckit-analyze` para verificar consistencia spec ↔ plan ↔ tareas
+4. `/speckit-implement` historia por historia: `chore/RDF-5-…`, luego `feat/RDF-6-…`, etc.
 
-RDF-8 (ver categorías) se planifica en la rama `002-gestion-categorias` con el mismo flujo.
+Formato de commit y título de PR: `type(RDF-n): descripción en imperativo`.
+
+RDF-8 (ver categorías) se planifica sobre `specs/002-gestion-categorias` con el mismo flujo.
 
 ## Eventos (sprint de 1 semana)
 
