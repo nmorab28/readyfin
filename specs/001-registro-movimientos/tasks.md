@@ -66,26 +66,26 @@ Aplicación web: `backend/src/`, `backend/tests/`, `frontend/src/`, `frontend/te
 
 ### Tests (escribir primero)
 
-- [ ] T017 [P] [US1] Pruebas unitarias del esquema zod: `amountCents` entero 1…99999999999999, `date` `YYYY-MM-DD` válida, `note` ≤ 200 recortada y vacía → null, campos extra rechazados, en `backend/tests/unit/transactions.schema.test.js`
-- [ ] T018 [P] [US1] Pruebas de integración: `GET /api/categories?type=expense` devuelve solo gastos; `POST /api/transactions` válido → 201 con `category`; monto 0, negativo o ausente → 400 "El monto debe ser mayor que cero" con `field: "amountCents"`; sin categoría o inexistente → 400 `field: "categoryId"`, en `backend/tests/integration/transactions.create.test.js`
-- [ ] T019 [P] [US1] Pruebas unitarias de `parseCopToCents` ("25.000" → 2500000, "1.234,5" → 123450, "0", "-5", "abc", "1,234" → error) y `formatCents`, en `frontend/tests/lib/money.test.js`
-- [ ] T020 [P] [US1] Prueba de `todayLocal()` con reloj inyectado a las 20:00 del 2026-10-23 en UTC-5 → "2026-10-23", en `frontend/tests/lib/dates.test.js`
-- [ ] T021 [P] [US1] Pruebas de `TransactionForm`: fecha por defecto hoy, mensajes de monto y categoría, botón deshabilitado mientras guarda, datos conservados si la API falla, en `frontend/tests/transactions/TransactionForm.test.jsx`
+- [X] T017 [P] [US1] Pruebas unitarias del esquema zod: `amountCents` entero 1…99999999999999, `date` `YYYY-MM-DD` válida, `note` ≤ 200 recortada y vacía → null, campos extra rechazados, en `backend/tests/unit/transactions.schema.test.js`
+- [X] T018 [P] [US1] Pruebas de integración: `GET /api/categories?type=expense` devuelve solo gastos; `POST /api/transactions` válido → 201 con `category`; monto 0, negativo o ausente → 400 "El monto debe ser mayor que cero" con `field: "amountCents"`; sin categoría o inexistente → 400 `field: "categoryId"`, en `backend/tests/integration/transactions.create.test.js`
+- [X] T019 [P] [US1] Pruebas unitarias de `parseCopToCents` ("25.000" → 2500000, "1.234,5" → 123450, "0", "-5", "abc", "1,234" → error) y `formatCents`, en `frontend/tests/lib/money.test.js`
+- [X] T020 [P] [US1] Prueba de `todayLocal()` con reloj inyectado a las 20:00 del 2026-10-23 en UTC-5 → "2026-10-23", en `frontend/tests/lib/dates.test.js`
+- [X] T021 [P] [US1] Pruebas de `TransactionForm`: fecha por defecto hoy, mensajes de monto y categoría, botón deshabilitado mientras guarda, datos conservados si la API falla, en `frontend/tests/transactions/TransactionForm.test.jsx`
 
 ### Implementation
 
-- [ ] T022 [P] [US1] Repositorio de categorías (`listCategories({ type })`), en `backend/src/categories/categories.repository.js`
-- [ ] T023 [US1] Ruta `GET /api/categories` con validación de `type`, en `backend/src/categories/categories.routes.js`
-- [ ] T024 [P] [US1] Esquema zod `TransactionInput` con mensajes en español, en `backend/src/transactions/transactions.schema.js`
-- [ ] T025 [P] [US1] Repositorio de movimientos (`insert`, `findById` con categoría), en `backend/src/transactions/transactions.repository.js`
-- [ ] T026 [US1] Servicio `createTransaction(input)`: valida, comprueba que la categoría exista y sea del tipo del movimiento, inserta, en `backend/src/transactions/transactions.service.js`
-- [ ] T027 [US1] Rutas `POST /api/transactions` y `GET /api/transactions` (lista simple ordenada por `date DESC, id DESC`), en `backend/src/transactions/transactions.routes.js`
-- [ ] T028 [P] [US1] Cliente HTTP que traduce el formato `Error` del contrato, en `frontend/src/api/client.js`
-- [ ] T029 [P] [US1] `parseCopToCents` y `formatCents` (`Intl.NumberFormat('es-CO', {style:'currency', currency:'COP'})`), en `frontend/src/lib/money.js`
-- [ ] T030 [P] [US1] `todayLocal(now)` y `isFuture(date, now)`, en `frontend/src/lib/dates.js`
-- [ ] T031 [US1] `TransactionForm` (tipo fijo Gasto en esta historia), en `frontend/src/transactions/TransactionForm.jsx`
-- [ ] T032 [US1] `TransactionList` con fecha, categoría, monto y etiqueta "Futuro", en `frontend/src/transactions/TransactionList.jsx`
-- [ ] T033 [US1] `TransactionsPage` que une formulario y lista; montarla en `frontend/src/App.jsx`
+- [X] T022 [P] [US1] Repositorio de categorías (`listCategories({ type })`), en `backend/src/categories/categories.repository.js`
+- [X] T023 [US1] Ruta `GET /api/categories` con validación de `type`, en `backend/src/categories/categories.routes.js`
+- [X] T024 [P] [US1] Esquema zod `TransactionInput` con mensajes en español, en `backend/src/transactions/transactions.schema.js`
+- [X] T025 [P] [US1] Repositorio de movimientos (`insert`, `findById` con categoría), en `backend/src/transactions/transactions.repository.js`
+- [X] T026 [US1] Servicio `createTransaction(input)`: valida, comprueba que la categoría exista y sea del tipo del movimiento, inserta, en `backend/src/transactions/transactions.service.js`
+- [X] T027 [US1] Rutas `POST /api/transactions` y `GET /api/transactions` (lista simple ordenada por `date DESC, id DESC`), en `backend/src/transactions/transactions.routes.js`
+- [X] T028 [P] [US1] Cliente HTTP que traduce el formato `Error` del contrato, en `frontend/src/api/client.js`
+- [X] T029 [P] [US1] `parseCopToCents` y `formatCents` (`Intl.NumberFormat('es-CO', {style:'currency', currency:'COP'})`), en `frontend/src/lib/money.js`
+- [X] T030 [P] [US1] `todayLocal(now)` y `isFuture(date, now)`, en `frontend/src/lib/dates.js`
+- [X] T031 [US1] `TransactionForm` (tipo fijo Gasto en esta historia), en `frontend/src/transactions/TransactionForm.jsx`
+- [X] T032 [US1] `TransactionList` con fecha, categoría, monto y etiqueta "Futuro", en `frontend/src/transactions/TransactionList.jsx`
+- [X] T033 [US1] `TransactionsPage` que une formulario y lista; montarla en `frontend/src/App.jsx`
 
 **Checkpoint**: RDF-6 cumple la DoD y se demuestra solo.
 

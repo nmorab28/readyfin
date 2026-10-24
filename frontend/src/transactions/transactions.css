@@ -1,0 +1,115 @@
+.transactions-page {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.transaction-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px 16px;
+  align-items: start;
+  padding: 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.transaction-form h2 {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field--wide,
+.transaction-form .form-error,
+.transaction-form button {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.field input,
+.field select {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+}
+
+.field [aria-invalid='true'] {
+  border-color: var(--color-expense);
+}
+
+.field-error,
+.form-error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-expense);
+}
+
+.transaction-form button {
+  justify-self: start;
+  font: inherit;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--color-text);
+  color: var(--color-surface);
+  cursor: pointer;
+}
+
+.transaction-form button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.transaction-list {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.transaction-list caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+
+.transaction-list th,
+.transaction-list td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.transaction-list .amount {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tag {
+  margin-left: 8px;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  background: var(--color-border);
+  color: var(--color-muted);
+}
+
+.empty,
+.status {
+  color: var(--color-muted);
+}

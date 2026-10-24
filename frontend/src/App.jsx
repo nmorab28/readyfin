@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import TransactionsPage from './transactions/TransactionsPage.jsx';
 
 function useApiHealth() {
   const [status, setStatus] = useState('checking');
@@ -29,6 +30,7 @@ export default function App() {
           </p>
         )}
       </header>
+      <TransactionsPage />
     </main>
   );
 }
