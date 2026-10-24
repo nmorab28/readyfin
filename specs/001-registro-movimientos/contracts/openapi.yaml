@@ -1,0 +1,170 @@
+openapi: 3.1.0
+info:
+  title: ReadyFin API — Movimientos
+  version: 0.1.0
+  description: >
+    Contrato de la funcionalidad 001-registro-movimientos. Montos siempre en centavos enteros.
+    Usuario único, sin autenticación (constitución, principio V).
+servers:
+  - url: http://localhost:3001/api
+paths:
+  /health:
+    get:
+      summary: Comprobación de vida de la API (RDF-5)
+      responses:
+        '200':
+          description: API disponible
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, const: ok }
+  /categories:
+    get:
+      summary: Lista categorías, opcionalmente por tipo (RDF-6, RDF-7)
+      parameters:
+        - $ref: '#/components/parameters/TypeFilter'
+      responses:
+        '200':
+          description: Categorías ordenadas por tipo y nombre
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Category' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+  /transactions:
+    get:
+      summary: Lista movimientos por mes y tipo con sus totales (RDF-9)
+      parameters:
+        - name: month
+          in: query
+          required: true
+          schema: { type: string, pattern: '^\d{4}-(0[1-9]|1[0-2])$', example: '2026-10' }
+        - $ref: '#/components/parameters/TypeFilter'
+      responses:
+        '200':
+          description: Movimientos ordenados por fecha descendente
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, totals]
+                properties:
+                  items:
+                    type: array
+                    items: { $ref: '#/components/schemas/Transaction' }
+                  totals:
+                    type: object
+                    description: >
+                      Sumas de los movimientos devueltos. Con filtro de tipo, el tipo no filtrado
+                      vale 0 y balance es el total del tipo con su signo.
+                    required: [incomeCents, expenseCents, balanceCents]
+                    properties:
+                      incomeCents: { type: integer }
+                      expenseCents: { type: integer }
+                      balanceCents: { type: integer }
+        '400': { $ref: '#/components/responses/ValidationError' }
+    post:
+      summary: Crea un movimiento (RDF-6, RDF-7)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TransactionInput' }
+      responses:
+        '201':
+          description: Movimiento creado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Transaction' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+  /transactions/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema: { type: integer, minimum: 1 }
+    put:
+      summary: Reemplaza un movimiento existente (RDF-14)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/TransactionInput' }
+      responses:
+        '200':
+          description: Movimiento actualizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Transaction' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      summary: Elimina un movimiento (RDF-20)
+      responses:
+        '204': { description: Eliminado }
+        '404': { $ref: '#/components/responses/NotFound' }
+components:
+  parameters:
+    TypeFilter:
+      name: type
+      in: query
+      required: false
+      schema: { type: string, enum: [income, expense] }
+  schemas:
+    Category:
+      type: object
+      required: [id, name, type, isDefault]
+      properties:
+        id: { type: integer }
+        name: { type: string, minLength: 1, maxLength: 30 }
+        type: { type: string, enum: [income, expense] }
+        isDefault: { type: boolean }
+    TransactionInput:
+      type: object
+      required: [type, amountCents, date, categoryId]
+      additionalProperties: false
+      properties:
+        type: { type: string, enum: [income, expense] }
+        amountCents: { type: integer, minimum: 1, maximum: 99999999999999 }
+        date: { type: string, format: date, example: '2026-10-23' }
+        categoryId:
+          type: integer
+          description: Debe existir y ser del mismo tipo que el movimiento
+        note: { type: [string, 'null'], maxLength: 200 }
+    Transaction:
+      allOf:
+        - $ref: '#/components/schemas/TransactionInput'
+        - type: object
+          required: [id, category, createdAt]
+          properties:
+            id: { type: integer }
+            category: { $ref: '#/components/schemas/Category' }
+            createdAt: { type: string, format: date-time }
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, enum: [VALIDATION_ERROR, NOT_FOUND, INTERNAL_ERROR] }
+            message:
+              type: string
+              description: Mensaje en español listo para mostrar al usuario
+              example: El monto debe ser mayor que cero
+            field: { type: string, example: amountCents }
+  responses:
+    ValidationError:
+      description: La entrada no cumple las reglas de la spec
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: El movimiento no existe
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
