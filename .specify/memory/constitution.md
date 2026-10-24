@@ -1,50 +1,93 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# ReadyFin Constitution
+
+ReadyFin es una aplicación web de finanzas personales construida como **demostración académica**
+de Spec-Driven Development (SDD) con Spec Kit y Scrum sobre Jira (proyecto `RDF`).
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Especificación antes que código (SDD)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+- Ninguna línea de código de producto se escribe sin `spec.md` aprobado para esa funcionalidad.
+- El flujo por funcionalidad es obligatorio: `/speckit-specify` → (`/speckit-clarify`) →
+  `/speckit-plan` → `/speckit-tasks` → `/speckit-implement`.
+- La especificación describe el QUÉ y el POR QUÉ; el plan describe el CÓMO. Ninguno mezcla al otro.
+- Cuando la implementación descubre que la especificación estaba mal, se corrige primero la
+  especificación y luego el código.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+Racional: la especificación es el artefacto fuente; el código es su consecuencia verificable.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Incrementos verticales e independientes
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+- Cada historia de usuario es un corte vertical (UI + API + datos) que se puede demostrar sola.
+- Ninguna historia se divide por capa técnica ("backend de X", "frontend de X").
+- Toda historia que entra a un sprint debe poder terminarse en 2 días o menos; si no, se divide.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Racional: solo un incremento usable produce retroalimentación real en la Sprint Review.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Pruebas primero para reglas de negocio (NO NEGOCIABLE)
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- Cada escenario de aceptación (Given/When/Then) tiene al menos una prueba automatizada que falla
+  antes de implementarlo y pasa después.
+- Reglas de dinero (saldos, totales, presupuestos, progreso de metas) se prueban con pruebas
+  unitarias; los endpoints de la API con pruebas de integración contra una base SQLite temporal.
+- La suite completa debe estar en verde antes de integrar a `main`.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Racional: en finanzas un cálculo incorrecto es peor que una función ausente.
+
+### IV. Exactitud monetaria y de datos
+
+- Los montos se almacenan como enteros en la unidad mínima (centavos) y nunca como punto flotante.
+- Una sola moneda por instalación (COP por defecto); el formato se aplica solo en la presentación.
+- Las fechas se guardan en ISO-8601 (`YYYY-MM-DD`); los periodos mensuales se calculan por mes
+  calendario.
+- Toda entrada del usuario se valida en el servidor; la validación del cliente es solo ayuda.
+
+Racional: los errores de redondeo y de fechas son los defectos más comunes en apps financieras.
+
+### V. Simplicidad (YAGNI)
+
+- Usuario único, sin autenticación, ejecución local: es una demostración.
+- Sin microservicios, colas, cachés ni ORMs pesados mientras no exista un requisito que lo exija.
+- Cualquier complejidad adicional se justifica en la sección "Complexity Tracking" del plan.
+
+Racional: el objetivo es demostrar el proceso de ingeniería, no construir un producto completo.
+
+## Restricciones técnicas y atributos de calidad
+
+- **Stack**: frontend React (Vite) + backend Node.js/Express + base de datos SQLite.
+  Monorepo con `frontend/` y `backend/`; API REST JSON bajo `/api`.
+- **Atributos priorizados** (ISO 25010):
+  1. Adecuación funcional: los cálculos financieros son correctos en el 100 % de las pruebas.
+  2. Usabilidad: registrar un movimiento toma menos de 30 segundos a un usuario nuevo.
+  3. Mantenibilidad: cada funcionalidad vive en su propio módulo y tiene pruebas.
+  4. Eficiencia: las vistas cargan en menos de 1 s con 5.000 movimientos.
+- **Atributos deliberadamente despriorizados**: escalabilidad, alta disponibilidad, multiusuario
+  y seguridad avanzada. Motivo: demo local de un solo usuario; se revisan si el producto deja de
+  ser una demostración.
+- **Idioma**: interfaz y documentación en español.
+
+## Flujo de trabajo y calidad
+
+- **Scrum** con sprints de **1 semana**, un único Sprint Goal por sprint escrito como resultado.
+- **Trazabilidad**: cada historia vive en Jira (`RDF-n`). Ramas, commits y PR llevan la clave:
+  `RDF-12-registrar-gasto`, `RDF-12 valida monto positivo`.
+- **Tablero**: Por hacer → En curso → En revisión → Hecho. WIP en curso ≤ 2.
+- **Definition of Ready**: historia con criterios Given/When/Then, dependencias identificadas,
+  tamaño ≤ 2 días y spec de la funcionalidad aprobada.
+- **Definition of Done**:
+  - Criterios de aceptación cubiertos por pruebas automatizadas en verde.
+  - Código revisado mediante Pull Request en GitHub.
+  - `tasks.md` de la funcionalidad actualizado.
+  - Demostrable en el entorno local con datos de ejemplo.
+  - Issue de Jira movido a Hecho solo cuando se cumple todo lo anterior (no por smart commit).
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- Esta constitución prevalece sobre cualquier otra práctica del repositorio; `/speckit-plan`
+  debe verificar su cumplimiento en la sección "Constitution Check".
+- Enmiendas: se proponen por PR modificando este archivo, con justificación y versión nueva.
+- Versionado semántico: MAJOR = se elimina o redefine un principio; MINOR = se agrega un principio
+  o sección; PATCH = aclaraciones de redacción.
+- Revisión de cumplimiento en cada Sprint Retrospective.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-10-23 | **Last Amended**: 2026-10-23
