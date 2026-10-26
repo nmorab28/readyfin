@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import CategoriesPage from './categories/CategoriesPage.jsx';
 import TransactionsPage from './transactions/TransactionsPage.jsx';
 
 function useApiHealth() {
@@ -16,8 +17,14 @@ function useApiHealth() {
   return status;
 }
 
+const VIEWS = [
+  { id: 'transactions', label: 'Movimientos' },
+  { id: 'categories', label: 'Categorías' },
+];
+
 export default function App() {
   const apiStatus = useApiHealth();
+  const [view, setView] = useState('transactions');
 
   return (
     <main className="app">
@@ -30,7 +37,17 @@ export default function App() {
           </p>
         )}
       </header>
-      <TransactionsPage />
+      <nav className="app-nav" aria-label="Secciones">
+        {VIEWS.map(({ id, label }) => (
+          <button
+            key={id} type="button" onClick={() => setView(id)}
+            aria-current={view === id ? 'page' : undefined}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+      {view === 'transactions' ? <TransactionsPage /> : <CategoriesPage />}
     </main>
   );
 }

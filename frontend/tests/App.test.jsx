@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import App from '../src/App.jsx';
 
@@ -33,5 +34,23 @@ describe('App', () => {
     render(<App />);
 
     expect(await screen.findByText(/No se pudo conectar con la API/)).toHaveAttribute('role', 'alert');
+  });
+
+  // Given the app open, When I click "Categorías", Then I see the categories screen.
+  it('lets the user switch between movements and categories', async () => {
+    stubApi({ healthUp: true });
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(await screen.findByRole('heading', { name: 'Registrar gasto' })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Categorías' }));
+
+    expect(await screen.findByRole('region', { name: 'Gastos' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Registrar gasto' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Movimientos' }));
+
+    expect(await screen.findByRole('heading', { name: 'Registrar gasto' })).toBeInTheDocument();
   });
 });
