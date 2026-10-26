@@ -24,9 +24,9 @@ describe('TransactionList', () => {
     expect(screen.getByText('Futuro')).toBeInTheDocument();
   });
 
-  it('invites the user to register the first movement when there are none', () => {
+  it('says there are no movements in the period when the list is empty', () => {
     render(<TransactionList transactions={[]} today="2026-10-23" />);
 
-    expect(screen.getByText('Aún no has registrado movimientos')).toBeInTheDocument();
+    expect(screen.getByText('No hay movimientos en este periodo')).toBeInTheDocument();
   });
 });

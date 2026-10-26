@@ -58,7 +58,7 @@ describe('RDF-6 · registering an expense', () => {
       expect(created.body.id).toEqual(expect.any(Number));
       expect(created.body.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
 
-      const list = await request(ctx.app).get('/api/transactions');
+      const list = await request(ctx.app).get('/api/transactions?month=2026-10');
       expect(list.status).toBe(200);
       expect(list.body.items).toEqual([created.body]);
     });
@@ -71,7 +71,7 @@ describe('RDF-6 · registering an expense', () => {
       expect(res.body).toEqual({
         error: { code: 'VALIDATION_ERROR', message: 'El monto debe ser mayor que cero', field: 'amountCents' },
       });
-      expect((await request(ctx.app).get('/api/transactions')).body.items).toEqual([]);
+      expect((await request(ctx.app).get('/api/transactions?month=2026-10')).body.items).toEqual([]);
     });
 
     // Given the new-expense form, When no category is selected, Then it is not saved.
@@ -116,7 +116,7 @@ describe('RDF-6 · registering an expense', () => {
       const sameDayFirst = await post({ date: '2026-10-20' });
       const sameDaySecond = await post({ date: '2026-10-20' });
 
-      const res = await request(ctx.app).get('/api/transactions');
+      const res = await request(ctx.app).get('/api/transactions?month=2026-10');
 
       expect(res.body.items.map((t) => t.id)).toEqual([
         sameDaySecond.body.id, sameDayFirst.body.id, older.body.id,

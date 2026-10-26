@@ -6,7 +6,7 @@ const SIGN = { income: '+', expense: '−' };
 
 export default function TransactionList({ transactions, today }) {
   if (transactions.length === 0) {
-    return <p className="empty">Aún no has registrado movimientos</p>;
+    return <p className="empty">No hay movimientos en este periodo</p>;
   }
 
   return (

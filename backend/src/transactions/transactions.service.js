@@ -1,6 +1,9 @@
 import { ValidationError } from '../errors.js';
 import { parseTransactionInput } from './transactions.schema.js';
 
+const TYPES = ['income', 'expense'];
+const MONTH_PATTERN = /^\d{4}-(0[1-9]|1[0-2])$/;
+
 // Business rules for movements. Storage is injected, so this module knows nothing about SQL or HTTP.
 export function createTransactionService({ transactions, categories }) {
   function assertCategoryMatches(input) {
@@ -19,8 +22,15 @@ export function createTransactionService({ transactions, categories }) {
       assertCategoryMatches(input);
       return transactions.insert(input);
     },
-    list() {
-      return transactions.listAll();
+    // `query` comes straight from the URL, so every value is untrusted (it may even be an array).
+    list({ month, type } = {}) {
+      if (typeof month !== 'string' || !MONTH_PATTERN.test(month)) {
+        throw new ValidationError('El mes es obligatorio y debe tener el formato AAAA-MM', 'month');
+      }
+      if (type !== undefined && !TYPES.includes(type)) {
+        throw new ValidationError('El tipo debe ser ingreso o gasto', 'type');
+      }
+      return transactions.listByPeriod({ month, type });
     },
   };
 }

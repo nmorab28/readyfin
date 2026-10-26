@@ -7,9 +7,9 @@ export function createTransactionRouter(service) {
     res.status(201).json(service.create(req.body));
   });
 
-  // Unfiltered for RDF-6; RDF-9 adds the month/type filter and the totals.
+  // RDF-9: movements of one month, optionally of one type, with their totals.
   router.get('/', (req, res) => {
-    res.json({ items: service.list() });
+    res.json(service.list(req.query));
   });
 
   return router;
