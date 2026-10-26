@@ -1,6 +1,9 @@
 import { formatDate } from '../lib/dates.js';
 import { formatCents } from '../lib/money.js';
 
+// Colour alone is not enough to tell the types apart, so the sign is always printed too.
+const SIGN = { income: '+', expense: '−' };
+
 export default function TransactionList({ transactions, today }) {
   if (transactions.length === 0) {
     return <p className="empty">Aún no has registrado movimientos</p>;
@@ -26,7 +29,7 @@ export default function TransactionList({ transactions, today }) {
             </td>
             <td>{t.category.name}</td>
             <td>{t.note}</td>
-            <td className="amount">{formatCents(t.amountCents)}</td>
+            <td className={`amount amount--${t.type}`}>{SIGN[t.type]}{formatCents(t.amountCents)}</td>
           </tr>
         ))}
       </tbody>

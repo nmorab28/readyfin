@@ -17,11 +17,11 @@ export default function TransactionsPage({ now }) {
   const load = useCallback(async () => {
     setStatus('loading');
     try {
-      const [expenseCategories, { items }] = await Promise.all([
-        api.listCategories('expense'),
+      const [allCategories, { items }] = await Promise.all([
+        api.listCategories(),
         api.listTransactions(),
       ]);
-      setCategories(expenseCategories);
+      setCategories(allCategories);
       setTransactions(items);
       setListStale(false);
       setStatus('ready');
@@ -34,7 +34,7 @@ export default function TransactionsPage({ now }) {
   useEffect(() => { load(); }, [load]);
 
   // Errors from creating propagate to the form, which keeps what the user typed.
-  // Once the expense is saved, a failed refresh must not look like a failed save.
+  // Once the movement is saved, a failed refresh must not look like a failed save.
   async function handleCreate(input) {
     await api.createTransaction(input);
     try {
@@ -62,7 +62,7 @@ export default function TransactionsPage({ now }) {
       <section aria-label="Historial de movimientos">
         {listStale && (
           <p role="status" className="form-error">
-            El gasto se guardó, pero no se pudo actualizar la lista. <button type="button" onClick={load}>Actualizar</button>
+            El movimiento se guardó, pero no se pudo actualizar la lista. <button type="button" onClick={load}>Actualizar</button>
           </p>
         )}
         <TransactionList transactions={transactions} today={today} />

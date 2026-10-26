@@ -100,6 +100,14 @@
   white-space: nowrap;
 }
 
+.transaction-list .amount--income {
+  color: var(--color-income);
+}
+
+.transaction-list .amount--expense {
+  color: var(--color-expense);
+}
+
 .tag {
   margin-left: 8px;
   padding: 2px 6px;

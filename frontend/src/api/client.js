@@ -36,7 +36,8 @@ async function request(path, { method = 'GET', body } = {}) {
 }
 
 export const api = {
-  listCategories: (type) => request(`/api/categories?type=${encodeURIComponent(type)}`),
+  // Without `type` the API returns the categories of both types.
+  listCategories: (type) => request(type ? `/api/categories?type=${encodeURIComponent(type)}` : '/api/categories'),
   listTransactions: () => request('/api/transactions'),
   createTransaction: (input) => request('/api/transactions', { method: 'POST', body: input }),
 };
