@@ -99,13 +99,13 @@ Aplicación web: `backend/src/`, `backend/tests/`, `frontend/src/`, `frontend/te
 
 ### Tests (escribir primero)
 
-- [ ] T034 [P] [US2] Integración: ingreso válido → 201; ingreso con categoría de gasto → 400 `field: "categoryId"`, en `backend/tests/integration/transactions.income.test.js`
-- [ ] T035 [P] [US2] Componente: cambiar a Ingreso muestra solo Salario, Ventas, Regalos, Otros y limpia la categoría elegida; la lista muestra `+` en ingresos y `−` en gastos, en `frontend/tests/transactions/income.test.jsx`
+- [X] T034 [P] [US2] Integración: ingreso válido → 201; ingreso con categoría de gasto → 400 `field: "categoryId"`, en `backend/tests/integration/transactions.income.test.js`
+- [X] T035 [P] [US2] Componente: cambiar a Ingreso muestra solo Salario, Ventas, Regalos, Otros y limpia la categoría elegida; la lista muestra `+` en ingresos y `−` en gastos, en `frontend/tests/transactions/income.test.jsx`
 
 ### Implementation
 
-- [ ] T036 [US2] Selector de tipo en `TransactionForm` que recarga categorías por tipo, en `frontend/src/transactions/TransactionForm.jsx`
-- [ ] T037 [US2] Signo y estilo por tipo en `TransactionList`, en `frontend/src/transactions/TransactionList.jsx` y `frontend/src/transactions/transactions.css`
+- [X] T036 [US2] Selector de tipo en `TransactionForm` que recarga categorías por tipo, en `frontend/src/transactions/TransactionForm.jsx`
+- [X] T037 [US2] Signo y estilo por tipo en `TransactionList`, en `frontend/src/transactions/TransactionList.jsx` y `frontend/src/transactions/transactions.css`
 
 **Checkpoint**: RDF-6 y RDF-7 funcionan juntas y por separado.
 
