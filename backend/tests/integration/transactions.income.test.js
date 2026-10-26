@@ -44,7 +44,7 @@ describe('RDF-7 · registering an income', () => {
       category: { id: salario, name: 'Salario', type: 'income', isDefault: true },
     });
 
-    const list = await request(ctx.app).get('/api/transactions');
+    const list = await request(ctx.app).get('/api/transactions?month=2026-10');
     expect(list.body.items).toEqual([created.body]);
   });
 
@@ -55,7 +55,7 @@ describe('RDF-7 · registering an income', () => {
     expect(res.body.error).toMatchObject({
       message: 'La categoría no corresponde al tipo de movimiento', field: 'categoryId',
     });
-    expect((await request(ctx.app).get('/api/transactions')).body.items).toEqual([]);
+    expect((await request(ctx.app).get('/api/transactions?month=2026-10')).body.items).toEqual([]);
   });
 
   it.each([[0], [-1]])('rejects an income with the amount %j', async (amountCents) => {

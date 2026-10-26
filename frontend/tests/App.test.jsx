@@ -11,7 +11,9 @@ function stubApi({ healthUp }) {
       return Response.json({ status: 'ok' });
     }
     if (url.startsWith('/api/categories')) return Response.json([]);
-    if (url === '/api/transactions') return Response.json({ items: [] });
+    if (url.startsWith('/api/transactions')) {
+      return Response.json({ items: [], totals: { incomeCents: 0, expenseCents: 0, balanceCents: 0 } });
+    }
     throw new Error(`unexpected request to ${url}`);
   });
   vi.stubGlobal('fetch', fetchMock);

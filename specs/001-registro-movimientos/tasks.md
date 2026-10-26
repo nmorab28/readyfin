@@ -119,15 +119,15 @@ Aplicación web: `backend/src/`, `backend/tests/`, `frontend/src/`, `frontend/te
 
 ### Tests (escribir primero)
 
-- [ ] T038 [P] [US3] Integración: `GET /api/transactions?month=2026-10` devuelve solo octubre en orden `date DESC, id DESC` con `totals.incomeCents`, `expenseCents`, `balanceCents`; `type=expense` filtra; `month` ausente o `2026-13` → 400, en `backend/tests/integration/transactions.list.test.js`
-- [ ] T039 [P] [US3] Rendimiento: 5.000 movimientos, la consulta de un mes responde en < 1000 ms, en `backend/tests/integration/transactions.perf.test.js`
-- [ ] T040 [P] [US3] Componente: `PeriodFilter` cambia mes y tipo; mes vacío muestra "No hay movimientos en este periodo"; se muestra el total, en `frontend/tests/transactions/PeriodFilter.test.jsx`
+- [X] T038 [P] [US3] Integración: `GET /api/transactions?month=2026-10` devuelve solo octubre en orden `date DESC, id DESC` con `totals.incomeCents`, `expenseCents`, `balanceCents`; `type=expense` filtra; `month` ausente o `2026-13` → 400, en `backend/tests/integration/transactions.list.test.js`
+- [X] T039 [P] [US3] Rendimiento: 5.000 movimientos, la consulta de un mes responde en < 1000 ms, en `backend/tests/integration/transactions.perf.test.js`
+- [X] T040 [P] [US3] Componente: `PeriodFilter` cambia mes y tipo; mes vacío muestra "No hay movimientos en este periodo"; se muestra el total, en `frontend/tests/transactions/PeriodFilter.test.jsx`
 
 ### Implementation
 
-- [ ] T041 [US3] `listByPeriod({ month, type })` con rango `date >= 'YYYY-MM-01' AND date < 'YYYY-(MM+1)-01'` y totales con `SUM`, en `backend/src/transactions/transactions.repository.js`
-- [ ] T042 [US3] Validar `month` y `type` y devolver `{ items, totals }`, en `backend/src/transactions/transactions.service.js` y `transactions.routes.js`
-- [ ] T043 [US3] `PeriodFilter` (mes actual por defecto) y totales en `TransactionsPage`, en `frontend/src/transactions/PeriodFilter.jsx` y `TransactionsPage.jsx`
+- [X] T041 [US3] `listByPeriod({ month, type })` con rango `date >= 'YYYY-MM-01' AND date < 'YYYY-(MM+1)-01'` y totales con `SUM`, en `backend/src/transactions/transactions.repository.js`
+- [X] T042 [US3] Validar `month` y `type` y devolver `{ items, totals }`, en `backend/src/transactions/transactions.service.js` y `transactions.routes.js`
+- [X] T043 [US3] `PeriodFilter` (mes actual por defecto) y totales en `TransactionsPage`, en `frontend/src/transactions/PeriodFilter.jsx` y `TransactionsPage.jsx`
 
 **Checkpoint**: Sprint Goal del Sprint 1 cumplido (RDF-5, 6, 7, 9).
 

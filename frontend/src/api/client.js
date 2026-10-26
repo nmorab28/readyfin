@@ -38,6 +38,12 @@ async function request(path, { method = 'GET', body } = {}) {
 export const api = {
   // Without `type` the API returns the categories of both types.
   listCategories: (type) => request(type ? `/api/categories?type=${encodeURIComponent(type)}` : '/api/categories'),
-  listTransactions: () => request('/api/transactions'),
+  // `month` is 'YYYY-MM'; `type` is optional and left out of the URL when empty.
+  listTransactions: ({ month, type } = {}) => {
+    const params = new URLSearchParams();
+    if (month) params.set('month', month);
+    if (type) params.set('type', type);
+    return request(`/api/transactions?${params}`);
+  },
   createTransaction: (input) => request('/api/transactions', { method: 'POST', body: input }),
 };
